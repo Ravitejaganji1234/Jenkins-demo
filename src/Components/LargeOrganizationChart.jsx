@@ -1,13 +1,12 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { ZoomIn, ZoomOut } from 'lucide-react';
+
 import OrgChartNode from './OrgChartNode';
-import PrintPage from './PrintPage';
+
 import { Search } from 'lucide-react';
 
 export default function LargeOrganizationChart() {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [zoom, setZoom] = useState(1);
   const [noResults, setNoResults] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -60,13 +59,7 @@ export default function LargeOrganizationChart() {
     }
   };
 
-  const handleZoomIn = useCallback(() => {
-    setZoom((prev) => Math.min(prev + 0.1, 2));
-  }, []);
 
-  const handleZoomOut = useCallback(() => {
-    setZoom((prev) => Math.max(prev - 0.1, 0.5));
-  }, []);
 
   const filteredEmployees = selectedEmployee ? [selectedEmployee] : employees.filter((employee) => {
     const nameMatches = employee.firstName?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -122,7 +115,7 @@ export default function LargeOrganizationChart() {
       <div className="flex-grow overflow-auto border border-gray-200 rounded-lg">
         <div
           className="inline-block min-w-full p-4"
-          style={{ transform: `scale(${zoom})`, transformOrigin: 'top left' }}
+          style={{ transformOrigin: 'top left' }}
         >
           {noResults ? (
             <div className="flex flex-col justify-center items-center h-full animate-bounce mt-28 ">
